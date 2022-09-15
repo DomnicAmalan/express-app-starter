@@ -9,8 +9,7 @@ const xss = require('xss-clean');
 const path = require('path');
 const hpp = require('hpp');
 
-const userRouter = require('./routers/userRouter');
-const authRoutes = require('./routers/authRoutes');
+const collectionRouter = require('./routers/collectionRouter');
 
 const globalErrorHandler = require('./middlewares/globalErrorHandler');
 
@@ -73,8 +72,7 @@ app.use((req, res, next) => {
 });
 
 // routes
-app.use('/api/users', userRouter);
-app.use('/api/auth', authRoutes);
+app.use('/api/collections', collectionRouter);
 
 // handling all (get,post,update,delete.....) unhandled routes
 app.all('*', (req, res, next) => {
@@ -84,6 +82,6 @@ app.all('*', (req, res, next) => {
 });
 
 // error handling middleware
-app.use(globalErrorHandler);
+// app.use(globalErrorHandler);
 
 module.exports = app;
