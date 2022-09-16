@@ -4,14 +4,10 @@ const cors = require('cors');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
-const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const path = require('path');
-const hpp = require('hpp');
 
 const collectionRouter = require('./routers/collectionRouter');
-
-const globalErrorHandler = require('./middlewares/globalErrorHandler');
 
 const AppError = require('./utils/appError');
 
@@ -19,17 +15,17 @@ const AppError = require('./utils/appError');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// var whitelist = ['http://example1.com', 'http://example2.com']
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
-// app.use(cors(corsOptions))
+var whitelist = ['https://www.jpegraffles.xyz']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions))
  
 
 app.use(express.json());
@@ -57,10 +53,9 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 //  Body Parser  => reading data from body into req.body protect from scraping etc
-app.use(express.json({ limit: '10kb' }));
+// app.use(express.json({ limit: '10kb' }));
 
 // Data sanitization against NoSql query injection
-app.use(mongoSanitize()); //   filter out the dollar signs protect from  query injection attact
 
 // Data sanitization against XSS
 app.use(xss()); //    protect from molision code coming from html
@@ -80,8 +75,4 @@ app.all('*', (req, res, next) => {
     new AppError(`Can't find ${req.originalUrl} on the server`, 404)
   );
 });
-
-// error handling middleware
-// app.use(globalErrorHandler);
-
 module.exports = app;

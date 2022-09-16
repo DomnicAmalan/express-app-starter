@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const colors = require('colors');
 process.on('uncaughtException', (error) => {
@@ -11,10 +10,6 @@ process.on('uncaughtException', (error) => {
 
 const app = require('./app');
 
-// database connection
-// DBConnect();
-
-// server
 const port = process.env.PORT || 3005;
 const server = app.listen(port, () => {
   console.log(`App is running on port ${port}`.yellow.bold);
