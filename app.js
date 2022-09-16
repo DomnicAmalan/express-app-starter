@@ -15,7 +15,7 @@ const AppError = require('./utils/appError');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-var whitelist = ['https://www.jpegraffles.xyz']
+var whitelist = ['https://www.jpegraffles.xyz', 'http://localhost:3000']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
