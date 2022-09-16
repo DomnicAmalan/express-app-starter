@@ -7,25 +7,36 @@ const helmet = require('helmet');
 const xss = require('xss-clean');
 const path = require('path');
 
+const apicache = require('apicache')
+
+let cache = apicache.options({
+  headers: {
+    'cache-control': 'no-cache',
+  },
+  statusCodes:{
+    include: [200, 201, 304]
+  }
+}).middleware
+
 const collectionRouter = require('./routers/collectionRouter');
+app.use(cache('1 hour'))
 
 const AppError = require('./utils/appError');
 
 // view engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-var whitelist = ['https://www.jpegraffles.xyz', 'http://localhost:3000']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-app.use(cors(corsOptions))
+// var whitelist = ['https://www.jpegraffles.xyz', 'http://localhost:3000']
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
+// app.use(cors(corsOptions))
  
 
 app.use(express.json());
@@ -61,10 +72,10 @@ app.use('/api', limiter);
 app.use(xss()); //    protect from molision code coming from html
 
 // testing middleware
-app.use((req, res, next) => {
-  console.log('this is a middleware');
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('this is a middleware');
+//   next();
+// });
 
 // routes
 app.use('/api/collections', collectionRouter);
