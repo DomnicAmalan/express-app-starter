@@ -21,12 +21,10 @@ exports.getAllCollection = catchAsync(async (req, res, next) => {
       {
         projection: { _id: 0 }
       }
-    )
-    const total = await data?.count()
-    const resp = await data.limit(100).skip(page).toArray()
+    ).toArray()
     client.close()
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
-    res.status(200).json({ data: resp, total, page: page, limit: 100 })
+    res.status(200).json(data)
   } catch (e) {
     console.log(e)
     return next(
