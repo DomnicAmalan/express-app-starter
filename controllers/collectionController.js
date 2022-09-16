@@ -6,8 +6,6 @@ const moment =require('moment')
 exports.getAllCollection = catchAsync(async (req, res, next) => {
   try {
     const client = new MongoClient(process.env.MONGO_URI);
-    let page = Number(req?.query?.page) + 1 || 1
-    page = page * 100
     await client.connect();
     const db = client.db("collection")
     const collection = db.collection('collections');
