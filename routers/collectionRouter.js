@@ -9,5 +9,7 @@ const router = express.Router();
 router
   .route('/get_all_collections')
   .get(collectionController.getAllCollection)
-
+router
+  .route('/mark_close')
+  .post(collectionController.markClosedForCollections)
 module.exports = router;

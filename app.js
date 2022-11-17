@@ -38,10 +38,7 @@ var corsOptions = {
 }
 app.use(cors(corsOptions))
  
-
 app.use(express.json());
-
-console.log(process.env.NODE_ENV);
 
 // set security http headers
 app.use(helmet());
