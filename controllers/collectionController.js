@@ -14,7 +14,7 @@ exports.getAllCollection = catchAsync(async (req, res, next) => {
         { 'registration_closes': { '$gte': moment.utc().toDate() } },
         {'$and': [
           { 'registration_closes': null },
-          { 'created_at': { '$gte': moment.utc().subtract(30, 'days').toDate() } },
+          { 'created_at': { '$gte': moment.utc().subtract(60, 'days').toDate() } },
         ]},
       ],
       'registration_status': { '$in': ["open", "unknown"] },
