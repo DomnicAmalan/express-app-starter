@@ -47,8 +47,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// $ CORS
-app.use(cors());
 
 //  set limit request from same API in timePeroid from same ip
 const limiter = rateLimit({
