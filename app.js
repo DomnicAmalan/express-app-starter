@@ -29,10 +29,10 @@ app.set('views', path.join(__dirname, 'views'));
 var whitelist = ['https://jpegraffles.xyz', 'https://www.jpegraffles.xyz', 'http://localhost:3000']
 var corsOptions = {
   origin: function (origin, callback) {
+    console.log('sds', origin)
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
-      console.log('sds', origin)
       callback(new Error('Not allowed by CORS'))
     }
   }
